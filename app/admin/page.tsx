@@ -19,7 +19,7 @@ export default function AdminPage() {
       color: 'var(--cream)',
       padding: '3rem 2rem',
     }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '860px', margin: '0 auto' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
@@ -36,11 +36,16 @@ export default function AdminPage() {
         </p>
 
         {/* Nav cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
           <a href="/admin/cocktails" style={card}>
             <span style={{ fontSize: '2rem' }}>🍹</span>
             <h2 style={cardTitle}>Cocktails</h2>
             <p style={cardDesc}>Add, edit, or remove cocktails from the menu.</p>
+          </a>
+          <a href="/admin/qr" style={card}>
+            <span style={{ fontSize: '2rem' }}>🔲</span>
+            <h2 style={cardTitle}>QR Code</h2>
+            <p style={cardDesc}>Generate and print QR codes per venue.</p>
           </a>
           <a href="/admin/quiz" style={card}>
             <span style={{ fontSize: '2rem' }}>🧠</span>
@@ -64,7 +69,6 @@ const card: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: '0.75rem',
-  transition: 'border-color 0.2s',
   cursor: 'pointer',
 }
 
