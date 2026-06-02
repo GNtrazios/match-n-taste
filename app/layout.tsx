@@ -18,7 +18,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Match 'n' Taste · Nomad",
+  title: "Match 'n' Taste",
   description: 'Find your perfect cocktail',
 }
 
