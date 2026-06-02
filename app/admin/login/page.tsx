@@ -20,8 +20,7 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push('/admin')
-      router.refresh()
+      await router.push('/admin')
     }
   }
 
