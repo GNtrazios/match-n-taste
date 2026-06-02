@@ -322,20 +322,20 @@ body {
   margin-bottom: 1.2rem;
 }
 
-.cocktail-glass {
+.cocktail-name {
   font-size: 5rem;
   display: block;
   margin: 0 auto 1rem;
   filter: drop-shadow(0 0 30px rgba(201, 168, 76, 0.5));
-  animation: floatGlass 3s ease-in-out infinite;
+  animation: floatName 3s ease-in-out infinite;
 }
 
-@keyframes floatGlass {
+@keyframes floatName {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-8px); }
 }
 
-.cocktail-name {
+.cocktail-glass {
   font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
   font-size: clamp(2.2rem, 9vw, 3.8rem);
   font-weight: 400;

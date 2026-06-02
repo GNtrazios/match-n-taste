@@ -233,8 +233,8 @@ export function QuizEngine() {
         {stage === 'result' && result && (
           <motion.div key="result" {...fadeUp} className="screen result-screen">
             <p className="result-tag">{t.yourMatch}</p>
-            <span className="cocktail-glass">{result.glass}</span>
-            <h2 className="cocktail-name">{result.name}</h2>            
+            <h2 className="cocktail-name">{result.name}</h2>
+            <span className="cocktail-glass">{result.glass}</span>            
             <p className="cocktail-sub">{lang === 'en' ? result.subtitle_en : result.subtitle_gr}</p>
             <div className="divider-sm" />
             <p className="cocktail-desc">{lang === 'en' ? result.description_en : result.description_gr}</p>
