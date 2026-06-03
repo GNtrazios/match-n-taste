@@ -16,12 +16,14 @@ interface State {
   nodeId:  string
   result:  Cocktail | null
   stepNum: number
+  history: string[]
 }
 
 type Action =
   | { type: 'SET_LANG'; lang: Lang }
   | { type: 'START' }
   | { type: 'SELECT'; next: string | { result: string } }
+  | { type: 'BACK' }
   | { type: 'RESTART' }
 
 const initial: State = {
@@ -30,6 +32,7 @@ const initial: State = {
   nodeId:  'q1',
   result:  null,
   stepNum: 1,
+  history: [],
 }
 
 function makeReducer(cocktails: CocktailMap) {
@@ -38,16 +41,37 @@ function makeReducer(cocktails: CocktailMap) {
       case 'SET_LANG':
         return { ...state, lang: action.lang }
       case 'START':
-        return { ...state, stage: 'quiz', nodeId: 'q1', stepNum: 1 }
+        return { ...state, stage: 'quiz', nodeId: 'q1', stepNum: 1, history: [] }
       case 'SELECT':
         if (typeof action.next === 'string') {
-          return { ...state, nodeId: action.next, stepNum: state.stepNum + 1 }
+          return {
+            ...state,
+            nodeId:  action.next,
+            stepNum: state.stepNum + 1,
+            history: [...state.history, state.nodeId],
+          }
         }
         return {
           ...state,
-          stage:  'result',
-          result: cocktails[action.next.result] ?? null,
+          stage:   'result',
+          result:  cocktails[action.next.result] ?? null,
+          history: [...state.history, state.nodeId],
         }
+      case 'BACK': {
+        if (state.history.length === 0) {
+          return { ...initial, lang: state.lang }
+        }
+        const prev    = state.history[state.history.length - 1]
+        const history = state.history.slice(0, -1)
+        return {
+          ...state,
+          stage:   'quiz',
+          nodeId:  prev,
+          stepNum: state.stepNum - 1,
+          result:  null,
+          history,
+        }
+      }
       case 'RESTART':
         return { ...initial, lang: state.lang }
       default:
@@ -128,7 +152,7 @@ export function QuizEngine() {
     initial
   )
 
-  const { stage, lang, nodeId, result, stepNum } = state
+  const { stage, lang, nodeId, result, stepNum, history } = state
   const t    = ui[lang]
   const node = tree?.[nodeId]
 
@@ -214,17 +238,35 @@ export function QuizEngine() {
             <p className="question-tag">{node.tag[lang]}</p>
             <h2 className="question-text">{node.question[lang]}</h2>
 
-            <div className={`options-grid${node.options.length <= 2 ? ' options-grid--single' : ''}`}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
               {node.options.map((opt, i) => (
                 <button
                   key={i}
                   className="option-btn"
                   onClick={() => dispatch({ type: 'SELECT', next: opt.next })}
+                  style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1rem', textAlign: 'left' }}
                 >
                   <span className="option-emoji">{opt.emoji}</span>
                   <span className="option-label">{opt.label[lang]}</span>
                 </button>
               ))}
+            </div>
+
+            {/* ── Navigation buttons ── */}
+            <div style={{ display: 'flex', gap: '0.75rem', width: '100%', marginTop: '0.5rem' }}>
+              <button
+                className="btn-ghost"
+                style={{ flex: 1 }}
+                onClick={() => dispatch({ type: 'BACK' })}
+              >
+                ← {history.length === 0 ? t.home : t.back}              </button>
+              <button
+                className="btn-ghost"
+                style={{ flex: 1 }}
+                onClick={() => dispatch({ type: 'RESTART' })}
+              >
+                {t.restart}
+              </button>
             </div>
           </motion.div>
         )}
@@ -234,7 +276,7 @@ export function QuizEngine() {
           <motion.div key="result" {...fadeUp} className="screen result-screen">
             <p className="result-tag">{t.yourMatch}</p>
             <h2 className="cocktail-name">{result.name}</h2>
-            <span className="cocktail-glass">{result.glass}</span>            
+            <span className="cocktail-glass">{result.glass}</span>
             <p className="cocktail-sub">{lang === 'en' ? result.subtitle_en : result.subtitle_gr}</p>
             <div className="divider-sm" />
             <p className="cocktail-desc">{lang === 'en' ? result.description_en : result.description_gr}</p>
@@ -245,12 +287,22 @@ export function QuizEngine() {
               ))}
             </div>
 
-            <button
-              className="btn-ghost"
-              onClick={() => dispatch({ type: 'RESTART' })}
-            >
-              {t.restart}
-            </button>
+            <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+              <button
+                className="btn-ghost"
+                style={{ flex: 1 }}
+                onClick={() => dispatch({ type: 'BACK' })}
+              >
+                ← {t.back}
+              </button>
+              <button
+                className="btn-ghost"
+                style={{ flex: 1 }}
+                onClick={() => dispatch({ type: 'RESTART' })}
+              >
+                {t.restart}
+              </button>
+            </div>
           </motion.div>
         )}
 

@@ -7,6 +7,8 @@ interface UIStrings {
   yourMatch: string
   restart: string
   step: string
+  back: string
+  home: string
 }
 
 export const ui: Record<Lang, UIStrings> = {
@@ -17,6 +19,8 @@ export const ui: Record<Lang, UIStrings> = {
     yourMatch: 'Your perfect match',
     restart: 'Try again',
     step: 'Step',
+    back: 'Back',
+    home: 'Home',
   },
   gr: {
     tagline: 'Βρες το τέλειο κοκτέιλ σου',
@@ -25,5 +29,7 @@ export const ui: Record<Lang, UIStrings> = {
     yourMatch: 'Η τέλεια πρότασή σου',
     restart: 'Ξανά',
     step: 'Βήμα',
+    back: 'Πίσω',
+    home: 'Αρχική',
   },
 }
