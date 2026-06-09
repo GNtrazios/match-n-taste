@@ -36,7 +36,7 @@ export default function AdminPage() {
         </p>
 
         {/* Nav cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
           <a href="/admin/cocktails" style={card}>
             <span style={{ fontSize: '2rem' }}>🍹</span>
             <h2 style={cardTitle}>Cocktails</h2>
@@ -51,6 +51,11 @@ export default function AdminPage() {
             <span style={{ fontSize: '2rem' }}>🧠</span>
             <h2 style={cardTitle}>Quiz</h2>
             <p style={cardDesc}>Manage quiz questions and answer branches.</p>
+          </a>
+          <a href="/admin/analytics" style={card}>
+            <span style={{ fontSize: '2rem' }}>📊</span>
+            <h2 style={cardTitle}>Analytics</h2>
+            <p style={cardDesc}>Track quiz choices, popular cocktails, and language usage.</p>
           </a>
         </div>
 

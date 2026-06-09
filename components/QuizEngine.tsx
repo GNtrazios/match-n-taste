@@ -5,6 +5,31 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Lang, Cocktail, QuizNode, QuizOption, RuntimeTree, CocktailMap } from '@/types'
 import { getQuizTree, getCocktails } from '@/lib/queries'
 import { ui } from '@/lib/i18n'
+import { supabase } from '@/lib/supabase'
+
+// ── Analytics helper ──────────────────────────────────────────────────
+
+async function trackEvent({
+  event_type,
+  node_id,
+  option_label,
+  cocktail_id,
+  lang,
+}: {
+  event_type:   'choice' | 'result'
+  node_id?:     string
+  option_label?: string
+  cocktail_id?: string
+  lang:         string
+}) {
+  await supabase.from('quiz_events').insert({
+    event_type,
+    node_id:      node_id      ?? null,
+    option_label: option_label ?? null,
+    cocktail_id:  cocktail_id  ?? null,
+    lang,
+  })
+}
 
 // ── State machine ─────────────────────────────────────────────────────
 
@@ -156,6 +181,31 @@ export function QuizEngine() {
   const t    = ui[lang]
   const node = tree?.[nodeId]
 
+  // ── Tracking handler ──────────────────────────────────────────────
+
+  function handleSelect(opt: { label: Record<Lang, string>; emoji: string; next: string | { result: string } }) {
+    const isLeaf = typeof opt.next !== 'string'
+
+    // Track the choice
+    trackEvent({
+      event_type:   'choice',
+      node_id:      nodeId,
+      option_label: opt.label.en,
+      lang,
+    })
+
+    // If leaf, also track the result
+    if (isLeaf) {
+      trackEvent({
+        event_type:  'result',
+        cocktail_id: (opt.next as { result: string }).result,
+        lang,
+      })
+    }
+
+    dispatch({ type: 'SELECT', next: opt.next })
+  }
+
   // ── Loading / error screens ───────────────────────────────────────
 
   if (loadError) {
@@ -243,7 +293,7 @@ export function QuizEngine() {
                 <button
                   key={i}
                   className="option-btn"
-                  onClick={() => dispatch({ type: 'SELECT', next: opt.next })}
+                  onClick={() => handleSelect(opt)}
                   style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1rem', textAlign: 'left' }}
                 >
                   <span className="option-emoji">{opt.emoji}</span>
@@ -259,7 +309,8 @@ export function QuizEngine() {
                 style={{ flex: 1 }}
                 onClick={() => dispatch({ type: 'BACK' })}
               >
-                ← {history.length === 0 ? t.home : t.back}              </button>
+                ← {history.length === 0 ? t.home : t.back}
+              </button>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
