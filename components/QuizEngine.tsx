@@ -40,7 +40,6 @@ interface State {
   lang:    Lang
   nodeId:  string
   result:  Cocktail | null
-  stepNum: number
   history: string[]
 }
 
@@ -56,7 +55,6 @@ const initial: State = {
   lang:    'en',
   nodeId:  'q1',
   result:  null,
-  stepNum: 1,
   history: [],
 }
 
@@ -66,13 +64,12 @@ function makeReducer(cocktails: CocktailMap) {
       case 'SET_LANG':
         return { ...state, lang: action.lang }
       case 'START':
-        return { ...state, stage: 'quiz', nodeId: 'q1', stepNum: 1, history: [] }
+        return { ...state, stage: 'quiz', nodeId: 'q1', history: [] }
       case 'SELECT':
         if (typeof action.next === 'string') {
           return {
             ...state,
             nodeId:  action.next,
-            stepNum: state.stepNum + 1,
             history: [...state.history, state.nodeId],
           }
         }
@@ -92,7 +89,6 @@ function makeReducer(cocktails: CocktailMap) {
           ...state,
           stage:   'quiz',
           nodeId:  prev,
-          stepNum: state.stepNum - 1,
           result:  null,
           history,
         }
@@ -177,7 +173,7 @@ export function QuizEngine() {
     initial
   )
 
-  const { stage, lang, nodeId, result, stepNum, history } = state
+  const { stage, lang, nodeId, result, history } = state
   const t    = ui[lang]
   const node = tree?.[nodeId]
 
@@ -272,17 +268,6 @@ export function QuizEngine() {
         {/* ── Quiz ── */}
         {stage === 'quiz' && node && (
           <motion.div key={nodeId} {...fadeUp} className="screen">
-            <div className="quiz-header">
-              <span className="step-label">{t.step} {stepNum}</span>
-              <div className="progress-track">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${Math.min((stepNum / totalSteps) * 100, 100)}%` }}
-                />
-              </div>
-              <span className="step-label">{stepNum}/{totalSteps}</span>
-            </div>
-
             <p className="question-tag">{node.tag[lang]}</p>
             <h2 className="question-text">{node.question[lang]}</h2>
 
@@ -327,7 +312,7 @@ export function QuizEngine() {
             {/* Title block */}
             <div style={{ textAlign: 'center', width: '100%' }}>
               <p className="result-tag" style={{ marginBottom: '0.25rem' }}>{t.yourMatch}</p>
-              <h2 className="cocktail-name" style={{ margin: '0 0 0.35rem' }}>{result.name}</h2>
+              <h2 className="cocktail-name" style={{ fontSize: '3rem', margin: '0 0 0.35rem' }}>{result.name}</h2>
               <p style={{ color: 'var(--cream-dim)', fontSize: '0.9rem', margin: '0 0 2rem', fontStyle: 'italic' }}>
                 {lang === 'en' ? result.subtitle_en : result.subtitle_gr}
               </p>
