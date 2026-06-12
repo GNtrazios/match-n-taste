@@ -296,14 +296,14 @@ export function QuizEngine() {
                 style={{ flex: 1 }}
                 onClick={() => dispatch({ type: 'BACK' })}
               >
-                ← {history.length === 0 ? t.home : t.back}
+                ◄ {t.back}
               </button>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
                 onClick={() => dispatch({ type: 'RESTART' })}
               >
-                {t.restart}
+                🏠︎ {t.restart}
               </button>
             </div>
           </motion.div>
@@ -356,14 +356,14 @@ export function QuizEngine() {
                 style={{ flex: 1 }}
                 onClick={() => dispatch({ type: 'BACK' })}
               >
-                ← {t.back}
+                ◄ {t.back}
               </button>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
                 onClick={() => dispatch({ type: 'RESTART' })}
               >
-                {t.restart}
+                🏠︎ {t.restart}
               </button>
             </div>
 

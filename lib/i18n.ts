@@ -6,9 +6,7 @@ interface UIStrings {
   start: string
   yourMatch: string
   restart: string
-  step: string
   back: string
-  home: string
 }
 
 export const ui: Record<Lang, UIStrings> = {
@@ -17,19 +15,15 @@ export const ui: Record<Lang, UIStrings> = {
     welcome: "Answer a few questions and we'll craft the perfect cocktail recommendation just for you.",
     start: 'Begin',
     yourMatch: 'Your perfect match',
-    restart: 'Try again',
-    step: 'Step',
+    restart: 'restart',
     back: 'Back',
-    home: 'Home',
   },
   gr: {
     tagline: 'Βρες το τέλειο κοκτέιλ σου',
     welcome: 'Απάντησε μερικές ερωτήσεις και θα σου προτείνουμε το κοκτέιλ που σου ταιριάζει.',
     start: 'Ξεκινήστε',
     yourMatch: 'Η τέλεια πρότασή σου',
-    restart: 'Ξανά',
-    step: 'Βήμα',
+    restart: 'Αρχική',
     back: 'Πίσω',
-    home: 'Αρχική',
   },
 }
