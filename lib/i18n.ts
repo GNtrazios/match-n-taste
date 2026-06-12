@@ -15,7 +15,7 @@ export const ui: Record<Lang, UIStrings> = {
     welcome: "Answer a few questions and we'll craft the perfect cocktail recommendation just for you.",
     start: 'Begin',
     yourMatch: 'Your perfect match',
-    restart: 'restart',
+    restart: 'Home',
     back: 'Back',
   },
   gr: {
