@@ -290,7 +290,7 @@ export function QuizEngine() {
             </div>
 
             {/* ── Navigation buttons ── */}
-            <div style={{ display: 'flex', gap: '4rem', width: '90%', margin: '1rem auto' }}>
+            <div style={{ display: 'flex', gap: '2rem', width: '90%', margin: '1rem auto' }}>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
@@ -350,7 +350,7 @@ export function QuizEngine() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem', width: '90%', margin: '0 auto' }}>
+            <div style={{ display: 'flex', gap: '2rem', width: '90%', margin: '0 auto' }}>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
