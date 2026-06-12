@@ -317,7 +317,7 @@ export function QuizEngine() {
             <div style={{ textAlign: 'center', width: '100%' }}>
               <p className="result-tag" style={{ marginBottom: '0.25rem' }}>{t.yourMatch}</p>
               <h2 className="cocktail-name" style={{ fontSize: '3rem', margin: '0 0 0.35rem' }}>{result.name}</h2>
-              <p style={{ color: 'var(--cream-dim)', fontSize: '0.9rem', margin: '0 0 2rem', fontStyle: 'italic' }}>
+              <p style={{ color: 'var(--cream-dim)', fontSize: '0.9rem', margin: '0 0 1rem', fontStyle: 'italic' }}>
                 {lang === 'en' ? result.subtitle_en : result.subtitle_gr}
               </p>
             </div>
@@ -329,7 +329,7 @@ export function QuizEngine() {
                 alt={result.name}
                 style={{
                   width: '100%',
-                  height: '300px',
+                  height: '290px',
                   objectFit: 'cover',
                   borderRadius: '16px',
                   border: '1px solid var(--gold-dark)',
