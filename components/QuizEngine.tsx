@@ -268,10 +268,14 @@ export function QuizEngine() {
         {/* ── Quiz ── */}
         {stage === 'quiz' && node && (
           <motion.div key={nodeId} {...fadeUp} className="screen">
-            <p className="question-tag">{node.tag[lang]}</p>
-            <h2 className="question-text">{node.question[lang]}</h2>
+            <p className="question-tag" style={{ width: '90%', margin: '1rem auto' }}>
+              {node.tag[lang]}
+            </p>
+            <h2 className="question-text" style={{ width: '90%', margin: '1rem auto' }}>
+              {node.question[lang]}
+            </h2>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '90%', margin: '0 auto' }}>
               {node.options.map((opt, i) => (
                 <button
                   key={i}
@@ -286,7 +290,7 @@ export function QuizEngine() {
             </div>
 
             {/* ── Navigation buttons ── */}
-            <div style={{ display: 'flex', gap: '0.75rem', width: '100%', marginTop: '0.5rem' }}>
+            <div style={{ display: 'flex', gap: '4rem', width: '90%', margin: '2rem auto' }}>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
@@ -346,7 +350,7 @@ export function QuizEngine() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', width: '90%', margin: '2rem auto' }}>
               <button
                 className="btn-ghost"
                 style={{ flex: 1 }}
