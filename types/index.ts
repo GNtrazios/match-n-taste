@@ -11,6 +11,7 @@ export interface Cocktail {
   description_en: string
   description_gr: string
   ingredients:    string[]
+  image_url?:     string
 }
 
 export interface QuizNode {

@@ -16,11 +16,11 @@ async function trackEvent({
   cocktail_id,
   lang,
 }: {
-  event_type:   'choice' | 'result'
-  node_id?:     string
+  event_type:    'choice' | 'result'
+  node_id?:      string
   option_label?: string
-  cocktail_id?: string
-  lang:         string
+  cocktail_id?:  string
+  lang:          string
 }) {
   await supabase.from('quiz_events').insert({
     event_type,
@@ -186,7 +186,6 @@ export function QuizEngine() {
   function handleSelect(opt: { label: Record<Lang, string>; emoji: string; next: string | { result: string } }) {
     const isLeaf = typeof opt.next !== 'string'
 
-    // Track the choice
     trackEvent({
       event_type:   'choice',
       node_id:      nodeId,
@@ -194,7 +193,6 @@ export function QuizEngine() {
       lang,
     })
 
-    // If leaf, also track the result
     if (isLeaf) {
       trackEvent({
         event_type:  'result',
@@ -325,12 +323,37 @@ export function QuizEngine() {
         {/* ── Result ── */}
         {stage === 'result' && result && (
           <motion.div key="result" {...fadeUp} className="screen result-screen">
-            <p className="result-tag">{t.yourMatch}</p>
-            <h2 className="cocktail-name">{result.name}</h2>
-            <span className="cocktail-glass">{result.glass}</span>
-            <p className="cocktail-sub">{lang === 'en' ? result.subtitle_en : result.subtitle_gr}</p>
+
+            {/* Title block */}
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <p className="result-tag" style={{ marginBottom: '0.25rem' }}>{t.yourMatch}</p>
+              <h2 className="cocktail-name" style={{ margin: '0 0 0.35rem' }}>{result.name}</h2>
+              <p style={{ color: 'var(--cream-dim)', fontSize: '0.9rem', margin: '0 0 2rem', fontStyle: 'italic' }}>
+                {lang === 'en' ? result.subtitle_en : result.subtitle_gr}
+              </p>
+            </div>
+
+            {/* Image */}
+            {result.image_url && (
+              <img
+                src={result.image_url}
+                alt={result.name}
+                style={{
+                  width: '100%',
+                  height: '220px',
+                  objectFit: 'cover',
+                  borderRadius: '16px',
+                  border: '1px solid var(--gold-dark)',
+                  top: '5rem',
+                }}
+              />
+            )}
+
             <div className="divider-sm" />
-            <p className="cocktail-desc">{lang === 'en' ? result.description_en : result.description_gr}</p>
+
+            <p className="cocktail-desc" style={{ textAlign: 'center' }}>
+              {lang === 'en' ? result.description_en : result.description_gr}
+            </p>
 
             <div className="ingredients-list">
               {result.ingredients.map((ing, i) => (
@@ -354,6 +377,7 @@ export function QuizEngine() {
                 {t.restart}
               </button>
             </div>
+
           </motion.div>
         )}
 
